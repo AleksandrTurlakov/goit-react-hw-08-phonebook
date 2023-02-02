@@ -16,14 +16,20 @@ const Title = styled.h1`
   text-align: center;
 `;
 
+const Span = styled.span`
+  font-size: 100px;
+  margin-bottom: 100px;
+`;
+
 export default function Home() {
   return (
     <Container>
       <Title>
         Welcome to Phonebook App
-        <span role="img" aria-label="Greeting icon">
-          💁‍♀️
-        </span>
+        <Span role="img" aria-label="Icon">
+          ☎
+        </Span>
+        Please, Register or Login to have access to the Phonebook!
       </Title>
     </Container>
   );

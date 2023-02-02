@@ -3,7 +3,7 @@ import { Contacts } from '../components/Contacts/Contacts';
 import { Filter } from '../components/Filter/Filter';
 import { GlobalStyle } from '../components/GlobalStyle/GlobalStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from '../redux/contactsOperations';
+import { fetchContacts } from '../redux/contactsPhone/contactsOperations';
 import { useEffect } from 'react';
 import { Loader } from '../components/Loader/Loader';
 

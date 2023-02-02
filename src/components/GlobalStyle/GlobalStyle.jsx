@@ -34,4 +34,9 @@ ol {
   padding: 0;
   list-style: none;
 }
+
+.link {
+  text-decoration: none;
+}
+
 `;

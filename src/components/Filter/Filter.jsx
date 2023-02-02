@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Label, Input } from './Filter.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from '../../redux/filterSlice';
+import { setFilter } from '../../redux/contactsPhone/filterSlice';
 
 export const Filter = () => {
   const dispatch = useDispatch();

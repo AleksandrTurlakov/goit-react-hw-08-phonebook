@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-export const WrapAuthNav = styled.div`
+export const Nav = styled.nav`
   display: flex;
   gap: 10px;
 `;

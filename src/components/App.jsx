@@ -1,52 +1,53 @@
-import { Form } from './Form/Form';
-import { Contacts } from './Contacts/Contacts';
-import { Filter } from './Filter/Filter';
-import { GlobalStyle } from './GlobalStyle/GlobalStyle';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from '../redux/contactsOperations';
-import { useEffect } from 'react';
-import { Loader } from './Loader/Loader';
+import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout';
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
+import { refreshUser } from 'redux/auth/authOperations';
+import { useAuth } from 'hooks';
+
+const HomePage = lazy(() => import('../pages/Home'));
+const RegisterPage = lazy(() => import('../pages/Register'));
+const LoginPage = lazy(() => import('../pages/Login'));
+const ContactsPage = lazy(() => import('../pages/PageContacts'));
 
 export const App = () => {
-  const { items, isLoading, error } = useSelector(state => state.contacts);
   const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
-    <>
-      <h1>Phonebook</h1>
-      <GlobalStyle />
-      <Form />
-      {error ? (
-        <h2>{error}</h2>
-      ) : (
-        <>
-          <h2>
-            {isLoading ? (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Loader />
-              </div>
-            ) : (
-              `In youre phonebook - ${items.length} Contacts`
-            )}
-          </h2>
-          <Filter />
-          {items.length === 0 && !isLoading ? (
-            <h2>You don't have saved contacts</h2>
-          ) : (
-            <Contacts />
-          )}
-        </>
-      )}
-    </>
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
